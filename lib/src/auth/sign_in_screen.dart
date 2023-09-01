@@ -22,48 +22,49 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text.rich(
-                  TextSpan(
-                    style: const TextStyle(
-                      fontSize: 40,
-                    ),
-                    children: [
-                      const TextSpan(
-                        text: 'Prognosti',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Care',
-                        style: TextStyle(
-                          color: Colors.pink,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                  child: DefaultTextStyle(
-                    style: const TextStyle(
-                      fontSize: 25,
-                    ),
-                    child: AnimatedTextKit(
-                      pause: Duration.zero,
-                      repeatForever: true,
-                      animatedTexts: [
-                        FadeAnimatedText('Conectando-se com o futuro da sua Saúde'),
-                        FadeAnimatedText('Exames'),
-                        FadeAnimatedText('Prontuários'),
-                        FadeAnimatedText('Consultas'),
-                        FadeAnimatedText('Agendamentos'),
-                        FadeAnimatedText('Vacinas'),
-                      ],
-                    ),
-                  ),
-                ),
+                Image.asset('images/logobranca.png'),
+                // Text.rich(
+                //   TextSpan(
+                //     style: const TextStyle(
+                //       fontSize: 40,
+                //     ),
+                //     children: [
+                //       const TextSpan(
+                //         text: 'Prognosti',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //       TextSpan(
+                //         text: 'Care',
+                //         style: TextStyle(
+                //           color: Colors.pink,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: 30,
+                //   child: DefaultTextStyle(
+                //     style: const TextStyle(
+                //       fontSize: 25,
+                //     ),
+                //     child: AnimatedTextKit(
+                //       pause: Duration.zero,
+                //       repeatForever: true,
+                //       animatedTexts: [
+                //         FadeAnimatedText('Conectando-se com o futuro da sua Saúde'),
+                //         FadeAnimatedText('Exames'),
+                //         FadeAnimatedText('Prontuários'),
+                //         FadeAnimatedText('Consultas'),
+                //         FadeAnimatedText('Agendamentos'),
+                //         FadeAnimatedText('Vacinas'),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
