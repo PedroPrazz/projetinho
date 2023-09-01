@@ -1,4 +1,6 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:projetinho/src/config/custom_colors.dart';
 import 'components/custom_text_field.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -7,12 +9,56 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.pink,
+      backgroundColor: CustomColors.customSwatchColor,
       body: Column(
         children: [
           Expanded(
-            child: Container(
-              color: Colors.red,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    style: const TextStyle(
+                      fontSize: 40,
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'Prognosti',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Care',
+                        style: TextStyle(
+                          color: CustomColors.customContrastColor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: DefaultTextStyle(
+                    style: const TextStyle(
+                      fontSize: 25,
+                    ),
+                    child: AnimatedTextKit(
+                      pause: Duration.zero,
+                      repeatForever: true,
+                      animatedTexts: [
+                        FadeAnimatedText('Conectando-se com o futuro da sua Saúde'),
+                        FadeAnimatedText('Exames'),
+                        FadeAnimatedText('Prontuários'),
+                        FadeAnimatedText('Consultas'),
+                        FadeAnimatedText('Agendamentos'),
+                        FadeAnimatedText('Vacinas'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -59,10 +105,10 @@ class SignInScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {},
-                    child: const Text(
+                    child: Text(
                       'Esqueceu a senha?',
                       style: TextStyle(
-                        color: Colors.red,
+                        color: CustomColors.customContrastColor,
                       ),
                     ),
                   ),
