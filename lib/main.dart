@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.pink,
       ),
       debugShowCheckedModeBanner: false,
-      home: const SignInScreen(),
+      home: SignInScreen(),
     );
   }
 }

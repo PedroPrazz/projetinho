@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:projetinho/src/auth/sign_up_screen.dart';
 import 'package:projetinho/src/config/custom_colors.dart';
 import '../../api/service/getFindbyIDService.dart';
@@ -8,7 +9,9 @@ import 'components/custom_text_field.dart';
 import 'homePage.dart';
 
 class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
+  SignInScreen({super.key});
+
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -84,120 +87,145 @@ class SignInScreen extends StatelessWidget {
                     top: Radius.circular(45),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTextField(
-                      controller: emailController,
-                      icon: Icons.email,
-                      label: 'Email',
-                    ),
-                    CustomTextField(
-                      controller: passwordController,
-                      icon: Icons.lock,
-                      label: 'Senha',
-                      isSecret: true,
-                    ),
-                    SizedBox(
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
-                        onPressed: () async {
-                          bool loggedIn = await LoginService.getLogin(
-                              emailController.text, passwordController.text);
-                          if (loggedIn) {
-                            if (passwordController.text == 'abcdefgh') {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage()));
-                              GetFindbyIDService.getFindbyID();
-                            }
-                          } else {
-                            print(
-                                'Seu email e senha não correspondem. Tente novamente!');
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      CustomTextField(
+                        controller: emailController,
+                        icon: Icons.email,
+                        label: 'Email',
+                        validator: (email) {
+                          if (email == null || email.isEmpty)
+                            return 'Digite seu email!';
+
+                          if (email.isEmail) return 'Digite um email válido!';
+
+                          return null;
+                        },
+                      ),
+                      CustomTextField(
+                        controller: passwordController,
+                        icon: Icons.lock,
+                        label: 'Senha',
+                        isSecret: true,
+                        validator: (senha) {
+                          if (senha == null || senha.isEmpty) {
+                            return 'Digite sua senha!';
                           }
+                          if (senha.length < 8) {
+                            return 'Digite uma senha com pelo menos 7 caracteres.';
+                          }
+                          return null;
                         },
-                        child: const Text(
-                          'Entrar',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () async {},
-                        child: Text(
-                          'Esqueceu a senha?',
-                          style: TextStyle(
-                            color: CustomColors.customContrastColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 2,
+                      SizedBox(
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 15),
-                            child: Text('Ou'),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.grey.withAlpha(90),
-                              thickness: 2,
+                          onPressed: () async {
+                            bool loggedIn = await LoginService.getLogin(
+                                emailController.text, passwordController.text);
+                            if (_formKey.currentState!.validate()) {
+                              print('Todos os campos estão válidos');
+                            } else {
+                              print('Campos não válidos');
+                            }
+                            if (loggedIn) {
+                              if (passwordController.text == 'abcdefgh') {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage()));
+                                GetFindbyIDService.getFindbyID();
+                              }
+                            } else {
+                              print(
+                                  'Seu email e senha não correspondem. Tente novamente!');
+                            }
+                          },
+                          child: const Text(
+                            'Entrar',
+                            style: TextStyle(
+                              fontSize: 18,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          side: const BorderSide(
-                            width: 2,
-                            color: Colors.pink,
-                          ),
                         ),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(builder: (c) {
-                              return SignUpScreen();
-                            }),
-                          );
-                        },
-                        child: const Text(
-                          'Criar conta',
-                          style: TextStyle(
-                            fontSize: 18,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () async {},
+                          child: Text(
+                            'Esqueceu a senha?',
+                            style: TextStyle(
+                              color: CustomColors.customContrastColor,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 2,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 15),
+                              child: Text('Ou'),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                color: Colors.grey.withAlpha(90),
+                                thickness: 2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: OutlinedButton(
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            side: const BorderSide(
+                              width: 2,
+                              color: Colors.pink,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (c) {
+                                return SignUpScreen();
+                              }),
+                            );
+                          },
+                          child: const Text(
+                            'Criar conta',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

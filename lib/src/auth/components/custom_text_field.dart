@@ -7,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   final bool isSecret;
   final List<TextInputFormatter>? inputFormatters;
   final TextEditingController? controller;
+  final String? Function(String?)? validator;
 
 
   const CustomTextField({
@@ -16,6 +17,7 @@ class CustomTextField extends StatefulWidget {
     this.isSecret = false,
     this.inputFormatters,
     this.controller,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         inputFormatters: widget.inputFormatters,
         controller: widget.controller,
         obscureText: isObscure,
+        validator: widget.validator,
         decoration: InputDecoration(
           prefixIcon: Icon(widget.icon),
           suffixIcon: widget.isSecret
