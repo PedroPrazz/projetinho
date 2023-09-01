@@ -1,13 +1,19 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:projetinho/src/config/custom_colors.dart';
+import '../../api/service/getFindbyIDService.dart';
+import '../../api/service/loginService.dart';
 import 'components/custom_text_field.dart';
+import 'homePage.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
     return Scaffold(
       backgroundColor: CustomColors.customSwatchColor,
       body: Column(
@@ -32,7 +38,7 @@ class SignInScreen extends StatelessWidget {
                       TextSpan(
                         text: 'Care',
                         style: TextStyle(
-                          color: CustomColors.customContrastColor,
+                          color: Colors.pink,
                         ),
                       )
                     ],
@@ -75,11 +81,13 @@ class SignInScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const CustomTextField(
+                CustomTextField(
+                  controller: emailController,
                   icon: Icons.email,
                   label: 'Email',
                 ),
-                const CustomTextField(
+                CustomTextField(
+                  controller: passwordController,
                   icon: Icons.lock,
                   label: 'Senha',
                   isSecret: true,
@@ -92,7 +100,19 @@ class SignInScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async{
+                      bool loggedIn = await LoginService.getLogin(emailController.text, passwordController.text);
+                      if (loggedIn) {
+                    if (passwordController.text == 'abcdefgh') {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    } else {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      GetFindbyIDService.getFindbyID();
+                    }
+                  } else {
+                    print('Seu email e senha não correspondem. Tente novamente!');
+                  }
+                    },
                     child: const Text(
                       'Entrar',
                       style: TextStyle(
@@ -104,7 +124,19 @@ class SignInScreen extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async{
+                  //     bool loggedIn = await LoginService.getLogin(_email.text, _password.text);
+                  //     if (loggedIn) {
+                  //   if (_password.text == 'abcdefgh') {
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  //   } else {
+                  //     Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  //     GetFindbyIDService.getFindbyID();
+                  //   }
+                  // } else {
+                  //   print('Seu email e senha não correspondem. Tente novamente!');
+                  // }
+                    },
                     child: Text(
                       'Esqueceu a senha?',
                       style: TextStyle(

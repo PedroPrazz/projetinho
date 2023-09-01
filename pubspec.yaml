@@ -40,7 +40,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  http:
+  flutter_secure_storage: ^5.0.3
+  get:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
